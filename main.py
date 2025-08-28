@@ -102,15 +102,7 @@ async def stream_dashboard(websocket: WebSocket):
             break
         except Exception as e:
             print(f"❌ Error in message loop: {e}")
-        finally:
-            # stop the background sender so it doesn't write to a dead socket
-            if not stream_1min.done():
-                stream_1min.cancel()
-            # close silently
-            try:
-                await websocket.close()
-            except Exception:
-                pass
+            return
 
 
 
@@ -239,8 +231,12 @@ async def stream_1min(websocket, contract_id, dailyLevels):
             "events_1h": events_1h,
         }
 
-        await websocket.send_json(payload)
-        
+        try:
+            await websocket.send_json(payload)
+        except Exception as e:
+            print(f"❌ send failed in stream_1min: {e}")
+            return
+            
         if bar["t"].minute == 5:
             await run_range_predictions(websocket)
 
