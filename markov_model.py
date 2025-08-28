@@ -65,7 +65,7 @@ def get_conditional_probs(snapshot, filters_enabled, df_snapshots):
                 (df_snapshots["pdLowTaken"] == snapshot["pdLowTaken"])
             )
         
-        elif key == "timeColor":  # NEW group: minute + currColor
+        elif key == "liveUpdates":  
             filters &= (
                 (df_snapshots["minute"] == snapshot["minute"]) &
                 (df_snapshots["currColor"] == snapshot["currColor"])
