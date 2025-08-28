@@ -1,11 +1,12 @@
 import pandas as pd
 
-def load_markov_matrix(path=r"C:\Users\prath\Desktop\GridVision\2. Python\ProjectX_API\colorMarkov_2step.pkl"):
-    return pd.read_pickle(path)
+def load_markov_matrix():
+    return pd.read_pickle("colorMarkov_2step.pkl")
+
 
 
 def load_snapshots_4h():
-    snapshots_df_4h = pd.read_parquet(r"C:\Users\prath\Desktop\GridVision\2. Python\ProjectX_API\df_4h_snapshots.parquet")
+    snapshots_df_4h = pd.read_parquet("df_4h_snapshots.parquet")
 
     # Calculate relative range quantile thresholds per session
     session_quantiles_4h = (
@@ -21,7 +22,7 @@ def load_snapshots_4h():
 
 
 def load_snapshots_1h():
-    snapshots_df_1h = pd.read_parquet(r"C:\Users\prath\Desktop\GridVision\2. Python\ProjectX_API\df_1h_snapshots.parquet")
+    snapshots_df_1h = pd.read_parquet("df_1h_snapshots.parquet")
 
     # Calculate relative range quantile thresholds per session
     session_quantiles_1h = (

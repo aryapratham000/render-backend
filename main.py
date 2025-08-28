@@ -7,7 +7,7 @@ from markov_model import load_snapshots_4h, get_conditional_probs, load_snapshot
 from dailyLevels import initialize_daily_levels, update_live_levels
 from data import latest_bar, get_hist_bars, aggregate_to_4h
 from range_model import make_features_1h, make_features_4h 
-import joblib
+import joblib, os
 from huber_wrapper import HuberWrapper
 
 app = FastAPI()
@@ -36,8 +36,8 @@ filters_enabled_1h = {
 }
 snapshots_df_4h, session_quantiles_4h = load_snapshots_4h()
 snapshots_df_1h, session_quantiles_1h = load_snapshots_1h()
-range_model_1h = joblib.load(r"C:\Users\prath\Desktop\GridVision\2. Python\ProjectX_API\huber_1h_2025-08-04.pkl")
-range_model_4h = joblib.load(r"C:\Users\prath\Desktop\GridVision\2. Python\ProjectX_API\huber_4h_2025-08-04.pkl")
+range_model_1h = joblib.load(os.path.join(os.path.dirname(__file__), "huber_1h_2025-08-04.pkl"))
+range_model_4h = joblib.load(os.path.join(os.path.dirname(__file__), "huber_4h_2025-08-04.pkl"))
 latest_prevbar_4h = None
 latest_prevbar_1h = None
 
