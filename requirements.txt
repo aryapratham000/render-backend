@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+joblib
+requests
+pandas
+numpy
+pytz
+statsmodels
+signalrcore
