@@ -7,7 +7,7 @@ from markov_model import load_snapshots_4h, get_conditional_probs, load_snapshot
 from dailyLevels import initialize_daily_levels, update_live_levels
 from data import latest_bar, get_hist_bars, aggregate_to_4h
 from range_model import make_features_1h, make_features_4h 
-import joblib, os
+import joblib
 from huber_wrapper import HuberWrapper
 
 app = FastAPI()
@@ -15,8 +15,7 @@ contract_id = "CON.F.US.EP.U25"
 latest_snapshot_4h = None
 latest_snapshot_1h = None
 filters_enabled_4h = {
-    "minute": True,
-    "currColor": True,
+    "liveUpdates": True,
     "prevColor_2": True,
     "session": True,
     "range_bin": False,
@@ -25,8 +24,7 @@ filters_enabled_4h = {
     "priceAbovePDNYOpen": False
 }
 filters_enabled_1h = {
-    "minute": True,
-    "currColor": True,
+    "liveUpdates": True,
     "prevColor_2": True,
     "session": True,
     "range_bin": False,
@@ -36,8 +34,8 @@ filters_enabled_1h = {
 }
 snapshots_df_4h, session_quantiles_4h = load_snapshots_4h()
 snapshots_df_1h, session_quantiles_1h = load_snapshots_1h()
-range_model_1h = joblib.load(os.path.join(os.path.dirname(__file__), "huber_1h_2025-08-04.pkl"))
-range_model_4h = joblib.load(os.path.join(os.path.dirname(__file__), "huber_4h_2025-08-04.pkl"))
+range_model_1h = joblib.load("huber_1h_2025-08-04.pkl")
+range_model_4h = joblib.load("huber_4h_2025-08-04.pkl")
 latest_prevbar_4h = None
 latest_prevbar_1h = None
 
