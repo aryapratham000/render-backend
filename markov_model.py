@@ -107,6 +107,6 @@ def build_event_probs(prob_series, prev_bar):
     return {
         "break_over_high":  f"{int(round(bh*100))}% break over {HP:.2f}",
         "break_under_low":  f"{int(round(bl*100))}% break under {LP:.2f}",
-        "close_over_close": f"{int(round(co*100))}% close over {CP:.2f}",
-        "close_under_close":f"{int(round(cd*100))}% close under {CP:.2f}",
+        "close_over_open": f"{int(round(co*100))}% close over {CP:.2f}",
+        "close_under_open":f"{int(round(cd*100))}% close under {CP:.2f}",
     }

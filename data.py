@@ -53,6 +53,17 @@ def get_hist_bars(contract_id, lookback_min=5555, live=False, unit=2, unit_numbe
         return None
 
 async def latest_bar(contract_id, unit = 2, unit_number = 1, live = False):
+
+    bars = get_hist_bars(
+        contract_id=contract_id,
+        unit=unit,
+        unit_number=unit_number,
+        limit=1,
+        live=live,
+    )
+    if bars:
+        yield bars[0]
+   
     while True:
         await asyncio.sleep(60 - datetime.now(pytz.timezone("America/New_York")).second)
 
