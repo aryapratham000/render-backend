@@ -9,6 +9,9 @@ from data import latest_bar, get_hist_bars, aggregate_to_4h
 from range_model import make_features_1h, make_features_4h 
 import joblib
 from huber_wrapper import HuberWrapper
+import pandas as pd
+import pandas_market_calendars as mcal
+
 
 app = FastAPI()
 contract_id = "CON.F.US.EP.U25"
@@ -43,6 +46,7 @@ latest_prevbar_1h = None
 @app.websocket("/ws/stream")
 async def stream_dashboard(websocket: WebSocket):
     await websocket.accept()
+    await websocket.send_json({"type": "market_status", **market_status()})
     JWT_TOKEN = auth.authenticate()
     dailyLevels = initialize_daily_levels(contract_id)
     await run_range_predictions(websocket)
@@ -212,6 +216,9 @@ async def stream_1min(websocket, contract_id, dailyLevels):
             if interaction:
                 interactions.append((level_name, interaction))
 
+        ms = market_status()
+
+
         payload = {
             "type": "1min_tick",
             "timestamp": bar["t"].strftime("%Y-%m-%d %H:%M:%S"),
@@ -229,6 +236,7 @@ async def stream_1min(websocket, contract_id, dailyLevels):
             "rangeCurr_1h": curr_range_1h,
             "events_4h": events_4h,
             "events_1h": events_1h,
+            "market_status": ms,
         }
 
         try:
@@ -272,5 +280,21 @@ async def run_range_predictions(websocket):
 
 
 
+def market_status(calendar_name="CME", only_rth=False):
+    cal = mcal.get_calendar(calendar_name)        # e.g., "CME" or "NYSE"
+    now = pd.Timestamp.now(tz=cal.tz)             # current time in the exchange’s tz
 
+    # small window that covers "now" and the next open
+    sched = cal.schedule(
+        start_date=(now - pd.Timedelta(days=2)).date(),
+        end_date=(now + pd.Timedelta(days=7)).date()
+    )
+
+    is_open = bool(cal.open_at_time(sched, now, include_close=True, only_rth=only_rth))
+    if is_open:
+        return {"is_open": True, "next_open": None}
+
+    future_opens = sched.loc[sched["market_open"] > now, "market_open"]
+    next_open = future_opens.iloc[0].isoformat() if not future_opens.empty else None
+    return {"is_open": False, "next_open": next_open}
 
