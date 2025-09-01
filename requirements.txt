@@ -8,3 +8,5 @@ pytz
 statsmodels
 signalrcore
 pyarrow
+pandas-market-calendars
+pandas
