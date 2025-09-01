@@ -280,8 +280,8 @@ async def run_range_predictions(websocket):
 
 
 
-def market_status(calendar_name="CME", only_rth=False):
-    cal = mcal.get_calendar(calendar_name)        # e.g., "CME" or "NYSE"
+def market_status(calendar_name="CME_Equity", only_rth=False):
+    cal = mcal.get_calendar(calendar_name)        
     now = pd.Timestamp.now(tz=cal.tz)             # current time in the exchange’s tz
 
     # small window that covers "now" and the next open
