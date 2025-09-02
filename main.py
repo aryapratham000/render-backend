@@ -292,7 +292,7 @@ def market_status(calendar_name="CME_Equity", only_rth=False):
 
     is_open = bool(cal.open_at_time(sched, now, include_close=True, only_rth=only_rth))
     if is_open:
-        return {"is_open": False, "next_open": None}
+        return {"is_open": True, "next_open": None}
 
     future_opens = sched.loc[sched["market_open"] > now, "market_open"]
     next_open = future_opens.iloc[0].isoformat() if not future_opens.empty else None
