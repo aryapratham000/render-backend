@@ -18,8 +18,8 @@ The results are streamed to a **React-based dashboard** in real time via **FastA
 - Users can apply **customizable filters** through the dashboard—such as prior-day high/low taken, relative range expansions etc. —to narrow probabilities to specific structural contexts.  
 - These conditional probabilities are recomputed **live every minute** as new data arrives, ensuring that evolving market structure continuously updates the probability distributions. This provides traders with a dynamic, real-time statistical view of potential outcomes rather than static backtested signals.  
 
-⚠️ For details on how the probability model is constructed, refer to **Session Classification Markov Model** in the repository.
-
+⚠️ For details on how the probability model is constructed, refer to **Session Classification Markov Model** in the repository  
+💻 The code for the frontend can be found at https://github.com/aryapratham000/trading-dashboard-frontend
 
 ## Features & Project Structure 
 
@@ -63,8 +63,6 @@ Check it out at https://trading-dashboard-frontend-taupe.vercel.app/
 - `df_4h_snapshots.parquet`  
 
 Used for **conditional probability filtering** & **quantile thresholds**.
-
-⚠️ **Update file paths** in `main.py` and `range_model.py` to point to your local `.pkl` models and snapshot parquet files before running.
 
 
 ## Development Pipeline
